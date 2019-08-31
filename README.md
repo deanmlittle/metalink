@@ -99,7 +99,7 @@ The schema may look something like this before encrypted, and is signed with the
 ```
 An example of how this would look on-chain would be something like this:
 
-`OP_FALSE` `OP_RETURN` `twetch` `13` `23049tujf...`
+`OP_FALSE` `OP_RETURN` `twetch` `23049tujf...`
 
 
 There are two ways in which xpubs can be transferred; synchronously and asynchronously.
