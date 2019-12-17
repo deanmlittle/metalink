@@ -333,11 +333,11 @@ It then saves the data from the transaction to some kind of local database, publ
 const express = require('express')
 const app = express()
 
-function broadcastTX(tx){
+async function broadcastTX(tx){
     //broadcast to a miner, p2p network or another Insight API
 }
 
-function saveTxToDB(tx){
+async function saveTxToDB(tx){
     //Do some validation, throw on error, return true upon save
 }
 
