@@ -1,5 +1,6 @@
 # Metalink
 **A proposal for better fullstack apps and wallets on BSV.**
+
 The metalink proposal is made up of three main parts: 
 1. Metalink ID
 2. BSVABI
