@@ -94,6 +94,7 @@ The app must create a valid JSON ABI schema, such as the example below.
 `actions` - This is where we define the action(s) that users may perform with an app, the inputs of those actions, and type/value matching to help ensure protocol compliance and minimise garbage data.
 
 **Actions**
+
 Any property directly below `actions` is treated as the name of an action that a user may call. In the above example, we had the action name `post`. Each action name has the following properties:
 
 `limit` - This is the default upper limit, denominated in satoshis as an integer, of how much this TX, with the sum of its outputs, may cost the user in total.
@@ -103,6 +104,7 @@ Any property directly below `actions` is treated as the name of an action that a
 `args` - This is where we define the arguments that are passed into the action, optionally including a variable `name`, what `type` of data the variable is, the `min` and `max` value for how large/small/long an input may be, and optionally, an explicit `value` they must match. The index of each of these actions map to the 0th array element after an `OP_RETURN` in a transaction output.
 
 **Type/value matching args**
+
 Args contain the following properties:
 
 `name` - An optional value that is useful for debugging, as it allows BSVABI.js to point out which input has failed type/value checking.
@@ -110,7 +112,7 @@ Args contain the following properties:
 `type` - An optional value that allows BSVABI.js to check that data is of a certain type. Current types include:
 - `*` - Match all
 - `String` - A string
-- `Integer` - A whole number or arbitrary length
+- `Integer` - A whole number of arbitrary length
 - `Float` - A decimal of arbitrary length and precision
 - `Hex` - A hexadecimal string
 - `Binary` - A binary string
@@ -125,6 +127,7 @@ In order for people to be able to consume this ABI, it must first be published t
 Now that you've deployed your ABI to the Bitcoin SV network, it can be consumed by apps and wallets, enabling you to make use of the six functions BSVABI performs; namely, `login`, `signAndSend`, `sign`, `encrypt`, `decrypt` and `balance`.
 
 **Getting started**
+
 To begin using BSVABI, simply inject the BSVABI.js library into your web app and instantiate it with your TXID, like so:
 
 ```js
@@ -134,6 +137,7 @@ const abi = new BSVABI("<abi txid>");
 Now that you've instantiated BSVABI, you can make start calling actions.
 
 **Login**
+
 You can get your active Metalink ID from your wallet by calling `login()` like so:
 
 ```js
@@ -155,6 +159,7 @@ This sends a window postMessage to your wallet, asking for your Metalink ID, and
 You can now use this ID to interact with other ABI actions using `signAndSend()`.
 
 **Sign and Send**
+
 You can call ABI actions using the signAndSend function, like so:
 `abi.signAndSend({ name: 'actionname', args: [arg1, arg2, arg3...]}).`
 
@@ -192,11 +197,12 @@ Upon calling `signAndSend()`, a window postMessage will be emited by your browse
 ```
 
 **Sign**
+
 Sometimes you just want to `sign` something without having to publish a transaction. You can do this by calling the `sign()` function like so:
 
 ```js
 try {
-    const signature = await abi.sign(user.id);
+    const signature = await abi.sign(user.id, '<String to sign>');
 } catch(error) {
     console.warn('')
 }
@@ -205,6 +211,7 @@ try {
 This will prompt your wallet to use your Metalink ID to sign an arbitrary string beginning with _"BSVABI:"_ to ensure you can't be tricked into signing something you don't consent to. This can used for things like logging in to a website.
 
 **Encrypt**
+
 Sometimes you might want to `encrypt` something with someone else's public key. You can do this by calling the `encrypt()` function like so:
 
 ```js
@@ -215,9 +222,16 @@ try {
 }
 ```
 
-This will prompt your wallet to look up the active key of the Metalink ID you wish to encrypt for, ECIES encrypt the string, and return it back to your app as a string.
+This will prompt your wallet to look up the active key of the Metalink ID you wish to encrypt for, ECIES encrypt the string, and return it back to your app as a JSON object, like so:
+
+```js
+{
+    message: '<Encrypted string>'
+}
+```
 
 **Decrypt**
+
 You may also wish to `decrypt` an encrypted string someone has sent to you. You can do this by calling the `decrypt()` function like so:
 
 ```js
@@ -228,9 +242,16 @@ try {
 }
 ```
 
-This will prompt your wallet to decrypt an ECIES encrypted string with your Metalink ID's active key.
+This will prompt your wallet to decrypt an ECIES encrypted string with your Metalink ID's active key and return the decrypted string as a JSON object, like so:
+
+```js
+{
+    message: '<Decrypted string>'
+}
+```
 
 **Balance**
+
 As BSVABI transitions BSV apps from having to consent to every single action to making large amounts of frictionless microtransactions, in order to provide a clearer understanding how much users are spending and earning, you can choose to display their current balance using the `balance()` function like so:
 
 ```js
