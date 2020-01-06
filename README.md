@@ -280,8 +280,9 @@ Each time a user performs a BSVABI action, it will be sent to the wallet via win
 {
     uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
     action: "BSVABI_SIGNANDSEND", //The function the user is calling in the wallet
+    accound: "<Metalink ID TXID>",
     args: [
-        "<txid>", 
+        "<ABI TXID>", 
         "<action>", 
         ["arg1", "arg2", "arg3"]
     ]
@@ -303,8 +304,9 @@ Should the user whitelist this action, we can now locally store a record of cons
 
 ```js
 {
-    txid: '<abi txid>',
+    abi: '<ABI TXID>',
     hostname: 'microsv.com',
+    account: '<Metalink ID TXID>',
     action: 'post'
     limit: 10000
 }
@@ -364,7 +366,7 @@ async function saveTxToDB(tx){
 
 app.post('/publish', async(req, res) => {
     try {
-        if(!req.body.rawtx) throw ("Inalid transaction");
+        if(!req.body.rawtx) throw ("Invalid transaction");
         await saveTxToDB(req.body.rawtx);
         await broadcastTx(req.body.rawtx);
         res.send("Success!");
