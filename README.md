@@ -14,7 +14,44 @@ Metalink ID is a decentralised, pseudonymous ID system, using TXIDs to represent
     "a": "<public key 2>"
 }
 ```
-By publishing a TXID with this JSON schema in the first output after `OP_0 OP_RETURN`, we now have the bare minimum implementation of a unique identity system with verifiable, on-chain data.
+By publishing a TXID with this JSON schema in the first output after an `OP_0 OP_RETURN`, we now have the bare minimum implementation of a unique identity system with verifiable, on-chain data. By storing public keys in TXs, we end up with a far superior solution to relying upon any individual identity provider, or systems like DNS, as identities can now be immutable, decentralised, cryptographically verifiable, enforcably unique, uniquely addressable and infinitely scalable. 
+
+Here's a worked example for the Metalink ID [6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f](https://whatsonchain.com/tx/6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f)
+
+Here, we have taken the following pair of owner/active keys and put them on chain:
+
+```json
+{
+    "o":"038eaed0ec5a92b5d7480a8a790c8d3e4beae363e4da733b6d98a3697500be9f4b",
+    "a":"0277d75325ec3a251165bd15fdb7c8919621ce5b13b965da399011ffe8315ac5d6"
+}
+```
+
+Now that the Metalink ID is on chain, it's possible for anyone to serve it up off-chain securely with SPV proofs, meaning anyone can now consume it without ever having to go back to chain to check that it exists, provided they just keep a copy of the block headers. Here's an example of an SPV proof for the above Metalink ID:
+
+```js
+{
+    rawtx: "01000000011d65721d6d5e6f0e6db39635be5bb7437412d07be7db1c73607f3363ac204289010000006a473044022041f43a3c9fb2ce3614955176843d60bb721ba33827718ab6bc90b160b7b6ead102204db54582e0af66b534215691dbc288b57c06a865fc6aa12b158a41b88f23dd01412102844d5867139ecf1d898863e1e58fa61a61aaafc80f98b2699ea2a1335743b008ffffffff02000000000000000097006a4c937b226f223a22303338656165643065633561393262356437343830613861373930633864336534626561653336336534646137333362366439386133363937353030626539663462222c2261223a22303237376437353332356563336132353131363562643135666462376338393139363231636535623133623936356461333939303131666665383331356163356436227d55280000000000001976a914e2a1c0b7da0612e457b08a19253f9ca8424ceab788ac00000000",
+    txid: "6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f",
+    branches: [
+        "e6c80714e945e65cd29e041d41068877d3b60918994cc94428b34ddf67d32b8f",
+        "995cdc1c5eb1d7eeb0082b4d5e3efa94cfe32b1a1abcdbc6cc685379b49927d8",
+        "a03bb64a811b09d70e2514793b348683c7474d7df1df37a0addf93b0c2b36379",
+        "daa4d66a43468093af7ec90da332da4253fd17054c0e63087780da7bcbc87f6e",
+        "2dfad80ebdd32dba310e2215d335bef47dc854de4c8f7fbf72ddd2e89b452d40",
+        "20537bfd3ead14f5a4cd1b9ce3f8a71359b6fbc54b8861f04dc1c2c7bc11b2d9",
+        "b6a729151fa40e0e39adfebbadaccde0529bec1ddef55f44e1fe6a3327ae7588",
+        "e79560f199171a748db1ee4ee9a9c714ed38007404691f4335484765ca3fdd64",
+        "7ad59e46abafb973b6a76eddb60555417f62c88db90ff83559f1b725c3a3ed3c",
+        "ce6ca14091812da9b8a3b9110f81dea7831b125b6eb0ce71750fa66f4ef24ded",
+        "3b2feb13859e9c8399ec9ad92c585e80c8a7d257fe9317aa555ead81884547e8"
+    ],
+    merkleRoot: "97e7d6256b9642bf998c9d1c954a98032be325b71e400f42e425ef84bcd613b5",
+    block: "0000000000000000029e1f8782f8470965513f898f5564b561daf32fdd99dc42"
+}
+```
+
+You can use the following script to [verify the Merkle root of an SPV proof](https://www.bitpaste.app/tx/49c518a597f4704e943913db1936a924465832484358f92fe4642204d5dd51f9)
 
 When using a Metalink-enabled wallet, you can import the TXID and active key for your identity, and save your owner key somewhere safe. In doing so, your wallet can now `sign`, `login`, `encrypt`, `decrypt`, `verify` and `send` on behalf of your active key, but does not have a way of cryptographically proving it is the owner, insulating the owner of the identity from a myriad of potential attack vectors and removing the need to trust your wallet with ultimate ownership of your identity. An active key is used to interact with Metalink-enabled Bitcoin apps for all functions other than changing ownership.
 
