@@ -51,7 +51,7 @@ Now that the Metalink ID is on chain, it's possible for anyone to serve it up of
 }
 ```
 
-You can use the following script to [verify the Merkle root of an SPV proof](https://www.bitpaste.app/tx/49c518a597f4704e943913db1936a924465832484358f92fe4642204d5dd51f9)
+You can use the following script to [verify the Merkle root of an SPV proof](https://www.bitpaste.app/tx/49c518a597f4704e943913db1936a924465832484358f92fe4642204d5dd51f9), though in reality, by using Metalink ID with BSVABI, we can create complete separation of concerns, meaning that wallets, not apps, will pick up the slack for doing this as it comes at no incremental cost to them to do so since they will already be maintaining their own BIP270 infrastructure.
 
 When using a Metalink-enabled wallet, you can import the TXID and active key for your identity, and save your owner key somewhere safe. In doing so, your wallet can now `sign`, `login`, `encrypt`, `decrypt`, `verify` and `send` on behalf of your active key, but does not have a way of cryptographically proving it is the owner, insulating the owner of the identity from a myriad of potential attack vectors and removing the need to trust your wallet with ultimate ownership of your identity. An active key is used to interact with Metalink-enabled Bitcoin apps for all functions other than changing ownership.
 
