@@ -14,10 +14,10 @@ Metalink ID is a decentralised, pseudonymous ID system, using TXIDs to represent
     "a": "<public key 2>"
 }
 ```
-##### 1a. TXID as ID
+##### TXID as ID
 By publishing a TXID with this JSON schema in the first output after an `OP_0 OP_RETURN`, we now have the bare minimum implementation of a unique identity system with verifiable, on-chain data. By storing public keys in TXs, we end up with a far superior solution to relying upon any individual identity provider, or systems like DNS, as identities can now be immutable, decentralised, cryptographically verifiable, enforcably unique, uniquely addressable and infinitely scalable. 
 
-##### 1b. Metalink ID Example
+##### Metalink ID Example
 
 Here's a worked example for the Metalink ID [6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f](https://whatsonchain.com/tx/6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f)
 
@@ -30,7 +30,7 @@ Here, we have taken the following pair of owner/active keys and put them on chai
 }
 ```
 
-##### 1c. SPV Proof of Identity
+##### SPV Proof of Identity
 Now that the Metalink ID is on chain, it's possible for anyone to serve it up off-chain securely with SPV proofs, meaning anyone can now consume it without ever having to go back to chain to check that it exists, provided they just keep a copy of the block headers. Here's an example of an SPV proof for the above Metalink ID:
 
 ```js
