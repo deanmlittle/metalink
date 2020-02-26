@@ -14,7 +14,10 @@ Metalink ID is a decentralised, pseudonymous ID system, using TXIDs to represent
     "a": "<public key 2>"
 }
 ```
+##### TXID as ID
 By publishing a TXID with this JSON schema in the first output after an `OP_0 OP_RETURN`, we now have the bare minimum implementation of a unique identity system with verifiable, on-chain data. By storing public keys in TXs, we end up with a far superior solution to relying upon any individual identity provider, or systems like DNS, as identities can now be immutable, decentralised, cryptographically verifiable, enforcably unique, uniquely addressable and infinitely scalable. 
+
+##### Metalink ID Example
 
 Here's a worked example for the Metalink ID [6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f](https://whatsonchain.com/tx/6dbffa521cd7c63aab630ee5b458f998eb6152f81f23fb571cf36094fb663b1f)
 
@@ -27,6 +30,7 @@ Here, we have taken the following pair of owner/active keys and put them on chai
 }
 ```
 
+##### SPV Proof of Identity
 Now that the Metalink ID is on chain, it's possible for anyone to serve it up off-chain securely with SPV proofs, meaning anyone can now consume it without ever having to go back to chain to check that it exists, provided they just keep a copy of the block headers. Here's an example of an SPV proof for the above Metalink ID:
 
 ```js
@@ -53,10 +57,12 @@ Now that the Metalink ID is on chain, it's possible for anyone to serve it up of
 
 You can use the following script to [verify the Merkle root of an SPV proof](https://www.bitpaste.app/tx/49c518a597f4704e943913db1936a924465832484358f92fe4642204d5dd51f9). While there may be some cases where apps still want/need to verify SPV proofs for Metalink IDs, by using them in conjunction with BSVABI, we can actually enable complete separation of concerns by outsourcing this task to wallets. This comes at no incremental cost to wallets, as they will already be maintaining their own BIP270 infrastructure, and thus a copy of the block headers.
 
+##### Use with wallets
 When using a Metalink-enabled wallet, you can import the TXID and active key for your identity, and save your owner key somewhere safe. In doing so, your wallet can now `sign`, `login`, `encrypt`, `decrypt`, `verify` and `send` on behalf of your active key, but does not have a way of cryptographically proving it is the owner, insulating the owner of the identity from a myriad of potential attack vectors and removing the need to trust your wallet with ultimate ownership of your identity. An active key is used to interact with Metalink-enabled Bitcoin apps for all functions other than changing ownership.
 
 Should a user wish to migrate to a new Metalink ID, they may tell this to each service they use individually, or through a syndication network, by signing with their owner key. Alternatively, if the user is well-known to the service, they may also choose to migrate identities based upon ***non-cryptographic*** evidence of ownership. Such a system is sufficiently robust to serve as the basis for any auxiliary functions of online identity, such as reputation, ownership of property, social security, licensing, or KYC, without compromising the principle of keyholder sovereignty in cases where this is not required.
 
+##### Higher level implementations
 Although this is how the system works on its most basic level, it is also possible for apps and wallets to build their own abstraction layers on top of it so that they may offer users custodial identity services tied to an email/password, paymail, handle, social media account, or phone number, enabling us to cater to any experience level, from beginners all the way up to power-users.
 
 ### 2. BSVABI
