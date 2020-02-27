@@ -353,7 +353,7 @@ Should the user whitelist this action, we can now locally store a record of cons
     abi: '<ABI TXID>',
     hostname: 'microsv.com',
     account: '<Metalink ID TXID>',
-    action: 'post'
+    action: 'post',
     limit: 10000
 }
 ```
