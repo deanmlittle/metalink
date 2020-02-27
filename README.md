@@ -326,7 +326,7 @@ Each time a user performs a BSVABI action, it will be sent to the wallet via win
 {
     uuid: "<random uuid>", //A random UUID used to map a function call to a promise on the frontend
     action: "BSVABI_SIGNANDSEND", //The function the user is calling in the wallet
-    accound: "<Metalink ID TXID>",
+    account: "<Metalink ID TXID>",
     args: [
         "<ABI TXID>", 
         "<action>", 
